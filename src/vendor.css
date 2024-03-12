@@ -1,0 +1,24 @@
+.input{
+    background-color: #00000056;
+    padding: 10px 10px;
+border: none;
+
+   height: 45px;
+   color: #fff;
+   /* border-radius: 5px; */
+   margin: 7px 10px;
+}
+.input::placeholder{
+    font-size: 15px;
+    text-transform: capitalize;
+    font-weight: 300;
+    color: #ffffff5e;
+}
+.input:active{
+    outline: none;
+}
+.input:focus-visible{
+    outline: none;
+
+
+}
