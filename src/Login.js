@@ -89,7 +89,7 @@ const Login = ({ handleLoginSuccess }) => {
 
 
                     <div className="input-group">
-                        <button type='submit' className=' bg-blue-500 text-white hover:bg-slate-400'>Login <i className="fa-solid fa-arrow-right"></i></button>
+                        <button type='submit' className='button bg-blue-500 text-white hover:bg-slate-400'>Login <i className="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </form>
             </div>

@@ -10,16 +10,6 @@ import { Link } from "react-router-dom";
 function Nav() {
 
 
-  useEffect(() => {
-    // GSAP animation logic here
-    gsap.from(".nav-item", {
-      duration: 0.2,
-      opacity: 0,
-      y: -20,
-      stagger: 0.1,
-      ease: "power3.out",
-    });
-  }, []);
 
 
 

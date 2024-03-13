@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import postService from "./postService";
 
-function AddVendor() {
+function AddVendor({ onsubmit }) {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [CPName, setCPName] = useState("");
@@ -25,42 +25,75 @@ function AddVendor() {
   const [BiFSC, setBiFSC] = useState("");
   const [BAC_No, setBAC_No] = useState("");
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();
 
-    try{
-
-    
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("address", address);
-    formData.append("Contact_Person_Name", CPName);
-    formData.append("Contact_Person_Email", CPEmail);
-    formData.append("Contact_Person_Phone_No", VPphone);
-    formData.append("Vendor_Type", VendorType);
-    formData.append("Vendor_Classification", VClassification);
-    formData.append("Customer_Currency", Ccurrencly);
-    formData.append("GSTN_Number", GSTN);
-    formData.append("Pan_Number", Pan);
-    formData.append("Ecc_No", Ecc);
-    formData.append("St_Reg_Number", St_Reg);
-    formData.append("Tin_No", Tin);
-    formData.append("Tan_Number", Tan);
-    formData.append("Payment_Terms", Payment_Terms);
-    formData.append("Inco_Terms", Inco_Terms);
-    formData.append("Bank_ACC_No", BAC_No);
-    formData.append("Bank_Branch", Bbranch);
-    formData.append("Bank_IFSC", BiFSC);
-    formData.append("Bank_Name", Bname);
-    formData.append("MSME_No", MSME);
-if(formData){
-    const response=await postService(formData);
-    console.log(response)
-    alert("added successfully!")
+  //input validation for Bank account Numbers
+const HandleBankAcInput=(e)=>{
+const userInput=e.target.value;
+  const regex = /^[0-9]*$/;
+     if (regex.test(userInput) || userInput === "") {
+       // Allow empty string
+       setBAC_No(userInput);
+     } else {
+       // If the input contains non-numeric characters, remove them
+       const numericValue = userInput.replace(/[^0-9]/g, ""); 
+       
+       setBAC_No(numericValue);
+     }
 }
 
-    }catch(e){
-        throw e;
+
+const HandleBankNameInput = (e) => {
+  const userInput = e.target.value;
+ const regex = /^[A-Za-z]+$/;
+  if (regex.test(userInput) || userInput === "") {
+    // Allow empty string
+    setBname(userInput);
+  } else {
+    // If the input contains non-numeric characters, remove them
+    const numericValue = userInput.replace(/[^A-Za-z]/g, "");
+
+    setBname(numericValue);
+  }
+};
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+
+
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("address", address);
+      formData.append("Contact_Person_Name", CPName);
+      formData.append("Contact_Person_Email", CPEmail);
+      formData.append("Contact_Person_Phone_No", VPphone);
+      formData.append("Vendor_Type", VendorType);
+      formData.append("Vendor_Classification", VClassification);
+      formData.append("Customer_Currency", Ccurrencly);
+      formData.append("GSTN_Number", GSTN);
+      formData.append("Pan_Number", Pan);
+      formData.append("Ecc_No", Ecc);
+      formData.append("St_Reg_Number", St_Reg);
+      formData.append("Tin_No", Tin);
+      formData.append("Tan_Number", Tan);
+      formData.append("Payment_Terms", Payment_Terms);
+      formData.append("Inco_Terms", Inco_Terms);
+      formData.append("Bank_ACC_No", BAC_No);
+      formData.append("Bank_Branch", Bbranch);
+      formData.append("Bank_IFSC", BiFSC);
+      formData.append("Bank_Name", Bname);
+      formData.append("MSME_No", MSME);
+      if (formData) {
+        const response = await postService(formData);
+        console.log(response)
+        alert("added successfully!")
+        onsubmit()
+      }
+
+    } catch (e) {
+      throw e;
     }
 
   };
@@ -73,6 +106,7 @@ if(formData){
         <div className="w-100">
           <div className="w-100">
             <input
+              required
               type="text"
               value={name}
               className="input w-[293px]"
@@ -80,23 +114,28 @@ if(formData){
               onChange={(e) => setName(e.target.value)}
             />
             <input
+              required
               className="input w-[500px]"
               placeholder="Address"
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
-            <input
-              type="text"
-              placeholder="Vendor Type"
+            <select
               className="input"
-              value={VendorType}
               onChange={(e) => setVendorType(e.target.value)}
-            />
+            >
+              <option disabled hidden>
+                Vendor Type
+              </option>
+              <option value="Domestic">Domestic</option>
+              <option value="Regular">Regular</option>
+            </select>
           </div>
 
           <div>
             <input
+              required
               className="input "
               placeholder="Contact Person Name"
               type="text"
@@ -104,13 +143,15 @@ if(formData){
               onChange={(e) => setCPName(e.target.value)}
             />
             <input
-              type="text"
+              required
+              type="email"
               placeholder="Contact Person Email"
               value={CPEmail}
               className="input"
               onChange={(e) => setCPEmail(e.target.value)}
             />
             <input
+              required
               placeholder="Contact Person Phone No."
               className="input w-[200px]"
               type="text"
@@ -118,19 +159,24 @@ if(formData){
               onChange={(e) => setVPphone(e.target.value)}
             />
             <input
+              required
               className="input w-[150px]"
               type="text"
               placeholder="Customer Currency"
               value={Ccurrencly}
               onChange={(e) => setCcurrencly(e.target.value)}
             />
-            <input
-              className="input w-[170px]"
-              placeholder="Vendor Classification"
-              type="text"
-              value={VClassification}
+            <select
+              required
+              className="input w-[210px]"
               onChange={(e) => setVClassification(e.target.value)}
-            />
+            >
+              <option value=""  disabled hidden>
+                Vendor Classification
+              </option>
+              <option value="Micro">Micro</option>
+              <option value="Macro">Macro</option>
+            </select>
           </div>
 
           <div>
@@ -139,6 +185,7 @@ if(formData){
             </h1>
             <div>
               <input
+                required
                 type="text"
                 value={GSTN}
                 className="input"
@@ -146,6 +193,7 @@ if(formData){
                 onChange={(e) => setGSTN(e.target.value)}
               />
               <input
+                required
                 type="text"
                 className="input"
                 placeholder="Pan Number"
@@ -153,6 +201,7 @@ if(formData){
                 onChange={(e) => setPan(e.target.value)}
               />
               <input
+                required
                 placeholder="Ecc No"
                 className="input"
                 type="text"
@@ -160,6 +209,7 @@ if(formData){
                 onChange={(e) => setEcc(e.target.value)}
               />
               <input
+                required
                 className="input"
                 placeholder="St Reg Number"
                 type="text"
@@ -170,6 +220,7 @@ if(formData){
 
             <div>
               <input
+                required
                 placeholder="Tin No"
                 className="input w-[300px]"
                 type="text"
@@ -177,6 +228,7 @@ if(formData){
                 onChange={(e) => setTin(e.target.value)}
               />
               <input
+                required
                 placeholder="Tan Number"
                 className="input"
                 type="text"
@@ -184,6 +236,7 @@ if(formData){
                 onChange={(e) => setTan(e.target.value)}
               />
               <input
+                required
                 placeholder="MSME No"
                 className="input"
                 type="text"
@@ -199,6 +252,7 @@ if(formData){
             </h1>
             <div>
               <input
+                required
                 className="input"
                 placeholder="Payment Terms"
                 type="text"
@@ -206,6 +260,7 @@ if(formData){
                 onChange={(e) => setPayment_Terms(e.target.value)}
               />
               <input
+                required
                 type="text"
                 placeholder="Inco Terms"
                 className="input"
@@ -221,13 +276,15 @@ if(formData){
             </h1>
             <div>
               <input
+                required
                 placeholder="Bank Name"
                 className="input w-[300px]"
                 type="text"
                 value={Bname}
-                onChange={(e) => setBname(e.target.value)}
+                onChange={HandleBankNameInput}
               />
               <input
+                required
                 placeholder="Bank Branch"
                 className="input w-[180px]"
                 type="text"
@@ -235,6 +292,7 @@ if(formData){
                 onChange={(e) => setBbranch(e.target.value)}
               />
               <input
+                required
                 placeholder="Bank IFSC"
                 className="input"
                 type="text"
@@ -242,18 +300,24 @@ if(formData){
                 onChange={(e) => setBiFSC(e.target.value)}
               />
               <input
+                required
                 type="text"
                 placeholder="Bank A\C No"
                 className="input"
                 value={BAC_No}
-                onChange={(e) => setBAC_No(e.target.value)}
+                onChange={HandleBankAcInput}
               />
             </div>
           </div>
         </div>
 
         <div className="pt-4 pl-[10px]">
-          <button type="submit" className="w-[150px] bg-blue-500 text-white text-xl rounded-2xl">Submit</button>
+          <button
+            type="submit"
+            className="w-[150px] bg-blue-500 text-white text-xl rounded-md"
+          >
+            Submit
+          </button>
         </div>
       </form>
     </section>

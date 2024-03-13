@@ -1,10 +1,10 @@
 .input{
-    background-color: #00000056;
+ border: 1px solid gray;
     padding: 10px 10px;
-border: none;
-
+border-radius: 5px;
+background: #fff;
    height: 45px;
-   color: #fff;
+   color: #000;
    /* border-radius: 5px; */
    margin: 7px 10px;
 }
@@ -12,13 +12,17 @@ border: none;
     font-size: 15px;
     text-transform: capitalize;
     font-weight: 300;
-    color: #ffffff5e;
+    color: rgba(0, 0, 0, 0.397)
 }
 .input:active{
     outline: none;
 }
 .input:focus-visible{
-    outline: none;
+    /* outline: none; */
 
 
+}
+td, th{
+    border:1px solid black;
+    border-collapse: collapse;
 }

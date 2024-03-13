@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import {Routes, Route } from 'react-router-dom';
 import Login from './Login';
-import Dashboard from './Dashboard';
+
 import "./App.css"
+import Home from './Home';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
@@ -16,8 +17,8 @@ const App = () => {
    
       <div>
         <Routes>
-          <Route path="/Login" element={isLoggedIn ? <Dashboard /> : <Login handleLoginSuccess={handleLoginSuccess} />} />
-          <Route path="/" element={isLoggedIn ? <Dashboard /> : <Login handleLoginSuccess={handleLoginSuccess} />} />
+          <Route path="/Login" element={isLoggedIn ? <Home /> : <Login handleLoginSuccess={handleLoginSuccess} />} />
+          <Route path="/" element={isLoggedIn ? <Home /> : <Login handleLoginSuccess={handleLoginSuccess} />} />
         </Routes>
        
       </div>
