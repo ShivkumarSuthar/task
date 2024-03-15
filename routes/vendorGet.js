@@ -2,9 +2,9 @@ const express = require('express');
 const vendorModel = require("../models/vendor")
 const vendorGet = express();
 
-vendorGet.get("/viewVendor/:vendorId", async (req, res) => {
+vendorGet.get("/viewVendor/:Pan_Number", async (req, res) => {
     try {
-        const vendorData = await vendorModel.findOne({ _id: req.params.vendorId });
+        const vendorData = await vendorModel.findOne({ Pan_Number: req.params.Pan_Number });
         res.send(vendorData);
     } catch (e) {
         res.status(500).send("Internal server Error!");
